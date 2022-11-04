@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :bigint           not null, primary key
+#  email      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+class User < ApplicationRecord
+  # uniqueness, #presence validations for email
+  validates :email, uniqueness: true, presence: true
+
+  has_many :submitted_urls,
+    primary_key: :id,
+    foreign_key: :user_id,
+    class_name: :ShortenedUrl,
+    dependent: :destroy
+
+
+end
